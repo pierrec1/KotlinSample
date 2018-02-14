@@ -1,13 +1,14 @@
 package com.example.pierre.kotlinsample.users
 
 import com.example.pierre.kotlinsample.users.model.GetUsersUseCase
+import com.example.pierre.kotlinsample.users.model.SearchUsersUseCase
 import com.example.pierre.kotlinsample.users.model.Users
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class UsersPresenter @Inject constructor(val getUserUseCase: GetUsersUseCase) {
+class UsersPresenter @Inject constructor(val getUserUseCase: GetUsersUseCase, val searchUsersUseCase: SearchUsersUseCase) {
 
     private lateinit var view: View
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -22,6 +23,14 @@ class UsersPresenter @Inject constructor(val getUserUseCase: GetUsersUseCase) {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ userList -> view.showUserList(userList) }
+                        , { throwable -> view.showError(throwable.message) }))
+    }
+
+    fun searchUsers(textToMatch: String) {
+        compositeDisposable.add(searchUsersUseCase.searchUsers(textToMatch)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ userList -> view.showUserList(Users(userList)) }
                         , { throwable -> view.showError(throwable.message) })
         )
     }

@@ -1,9 +1,7 @@
 package com.example.pierre.kotlinsample.users.dagger
 
 import com.example.pierre.kotlinsample.users.UsersPresenter
-import com.example.pierre.kotlinsample.users.model.GetUsersAgent
-import com.example.pierre.kotlinsample.users.model.GetUsersNetworkDataSource
-import com.example.pierre.kotlinsample.users.model.GetUsersUseCase
+import com.example.pierre.kotlinsample.users.model.*
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -18,7 +16,7 @@ class UsersModule {
 
     @Provides
     @Singleton
-    fun provideUserPresenter(getUsersUseCase: GetUsersUseCase): UsersPresenter = UsersPresenter(getUsersUseCase)
+    fun provideUserPresenter(getUsersUseCase: GetUsersUseCase, searchUsersUseCase: SearchUsersUseCase): UsersPresenter = UsersPresenter(getUsersUseCase, searchUsersUseCase)
 
     @Provides
     @Singleton
@@ -27,13 +25,19 @@ class UsersModule {
 
     @Provides
     @Singleton
-    fun provideGetUsersAgent(getUsersNetworkDataSource: GetUsersNetworkDataSource): GetUsersAgent =
-            GetUsersAgent(getUsersNetworkDataSource)
+    fun provideGetUsersAgent(getUsersNetworkDataSource: GetUsersNetworkDataSource, getUsersLocalDataSource: GetUsersLocalDataSource): GetUsersAgent =
+            GetUsersAgent(getUsersNetworkDataSource, getUsersLocalDataSource)
 
     @Provides
     @Singleton
     fun provideGetUsersNetworkDataSource(): GetUsersNetworkDataSource {
         return GetUsersNetworkDataSource(provideRetrofit())
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetUsersLocalDataSource(): GetUsersLocalDataSource {
+        return GetUsersLocalDataSource()
     }
 
     @Provides
