@@ -13,10 +13,7 @@ class UsersAgent @Inject constructor(private val usersNetworkDataSource: UsersNe
         return usersNetworkDataSource.getUserList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(
-                        { users: Users ->
-                            saveUserList(users)
-                        })
+                .doOnSuccess({ users: Users -> saveUserList(users)})
     }
 
     fun saveUserList(users: Users?): Single<Users> =

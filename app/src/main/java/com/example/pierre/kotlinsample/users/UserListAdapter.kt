@@ -1,5 +1,7 @@
 package com.example.pierre.kotlinsample.users
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -19,15 +21,19 @@ class UserListAdapter(val view: UserListView, val userList: List<User>): Recycle
         holder?.infos?.text = userList[position].infos
         holder?.button?.setOnClickListener {
             view.onItemClicked(holder.name?.text?.toString())
-            changeInfosVisibility(holder)
+            changeCellItemsAppearance(holder)
         }
     }
 
-    private fun changeInfosVisibility(holder: ViewHolder) {
+    private fun changeCellItemsAppearance(holder: ViewHolder) {
         if (selectedHolder?.infos?.visibility == View.VISIBLE) {
             selectedHolder?.infos?.visibility = View.GONE
+            selectedHolder?.name?.setTypeface(null, Typeface.NORMAL)
+            selectedHolder?.name?.setTextColor(Color.BLACK)
         }
         holder.infos?.visibility = View.VISIBLE
+        holder.name?.setTypeface(null, Typeface.BOLD)
+        holder.name?.setTextColor(Color.BLUE)
         selectedHolder = holder
     }
 
