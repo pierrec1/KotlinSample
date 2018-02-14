@@ -1,10 +1,8 @@
 package com.example.pierre.kotlinsample.users.model
 
 import io.reactivex.Single
-import retrofit2.Retrofit
-import javax.inject.Inject
 
-class UsersLocalDataSource @Inject constructor(userDao: UserDao) {
+class UsersLocalDataSource  {
 
     var userList: List<User>? = ArrayList<User>()
 
