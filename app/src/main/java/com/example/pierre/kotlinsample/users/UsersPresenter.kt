@@ -8,7 +8,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class UsersPresenter @Inject constructor(val getUserUseCase: GetUsersUseCase, val searchUsersUseCase: SearchUsersUseCase) {
+class UsersPresenter @Inject constructor(
+        val getUserUseCase: GetUsersUseCase,
+        val searchUsersUseCase: SearchUsersUseCase) {
 
     private lateinit var view: View
     val compositeDisposable: CompositeDisposable = CompositeDisposable()

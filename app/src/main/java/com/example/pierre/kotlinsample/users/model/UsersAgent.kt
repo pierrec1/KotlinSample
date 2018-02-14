@@ -8,18 +8,22 @@ import javax.inject.Inject
 class UsersAgent @Inject constructor(private val usersNetworkDataSource: UsersNetworkDataSource,
                                      private val usersLocalDataSource: UsersLocalDataSource) {
 
-    fun loadUsers(): Single<Users> = usersNetworkDataSource.getUserList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess({
-                users: Users -> saveUserList(users)
-            })
+    fun loadUsers(): Single<Users> {
+        usersLocalDataSource.clearUsers()
+        return usersNetworkDataSource.getUserList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(
+                        { users: Users ->
+                            saveUserList(users)
+                        })
+    }
 
     fun saveUserList(users: Users?): Single<Users> =
-        usersLocalDataSource.saveUsers(users)
+            usersLocalDataSource.saveUsers(users)
 
     fun searchUsers(textToMatch: String): Single<List<User>> =
-        usersLocalDataSource.searchUsers(textToMatch)
+            usersLocalDataSource.searchUsers(textToMatch)
 }
 
 

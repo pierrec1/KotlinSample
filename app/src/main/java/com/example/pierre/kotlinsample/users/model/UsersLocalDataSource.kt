@@ -1,22 +1,29 @@
 package com.example.pierre.kotlinsample.users.model
 
 import io.reactivex.Single
+import javax.inject.Inject
 
-class UsersLocalDataSource  {
-
-    var userList: List<User>? = ArrayList<User>()
+class UsersLocalDataSource @Inject constructor(private val userDao: UserDao) {
 
     fun saveUsers(users: Users?): Single<Users> {
-        userList = users?.userList
-      return Single.just(users)
+        val userList = users?.userList
+
+        if (userList != null) {
+            for (user in userList) {
+                userDao.insert(user)
+            }
+        }
+        return Single.just(Users(userDao.getAll()))
     }
 
     fun searchUsers(textToMatch: String): Single<List<User>> {
-        val matchingUsers: ArrayList<User> = ArrayList<User>()
-        for (user in userList.orEmpty()) {
-            if(user.name.contains(textToMatch))
-                matchingUsers.add(user)
-        }
-        return Single.just(matchingUsers)
+        val nb: Int = userDao.getAll().size
+        val ul: List<User> = userDao.findByName(textToMatch)
+        val nb2: Int = ul.size
+        return Single.just(userDao.findByName(textToMatch ))
+    }
+
+    fun clearUsers() {
+        userDao.removeAll()
     }
 }

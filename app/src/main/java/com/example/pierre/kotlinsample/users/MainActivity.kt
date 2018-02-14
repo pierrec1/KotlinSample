@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
             }
 
             override fun onQueryTextChange(textToMatch: String): Boolean {
-                if(textToMatch == "") {
+                if (textToMatch == "") {
                     presenter.searchUsers("")
                 }
                 return true
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     }
 
     override fun showUserList(userList: List<User>) {
-        Toast.makeText(this, "Nb users: " + userList.size, Toast.LENGTH_LONG).show()
         user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         user_list_recycler_view?.adapter = UserListAdapter(this, userList)
     }
@@ -65,7 +64,6 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     }
 
     override fun onItemClicked(name: String?) {
-        Toast.makeText(this, "clicked on " + name, Toast.LENGTH_LONG).show()
         search_view.setQuery(name, false)
     }
 

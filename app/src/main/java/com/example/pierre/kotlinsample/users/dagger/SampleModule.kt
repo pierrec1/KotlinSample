@@ -1,5 +1,8 @@
 package com.example.pierre.kotlinsample.users.dagger
 
+import android.app.Application
+import android.arch.persistence.room.Room
+import android.content.Context
 import com.example.pierre.kotlinsample.users.UsersPresenter
 import com.example.pierre.kotlinsample.users.model.*
 import dagger.Module
@@ -10,13 +13,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class UsersModule {
+class SampleModule(private val application: Application) {
 
+    @Provides
+    @Singleton
+    @ForApplication
+    fun provideApplicationContext(): Context = application
     val BASE_URL = "http://media.tictrac.com/tmp/"
 
     @Provides
     @Singleton
-    fun provideUsersPresenter(getUsersUseCase: GetUsersUseCase, searchUsersUseCase: SearchUsersUseCase): UsersPresenter = UsersPresenter(getUsersUseCase, searchUsersUseCase)
+    fun provideUsersPresenter(getUsersUseCase: GetUsersUseCase, searchUsersUseCase: SearchUsersUseCase)
+            : UsersPresenter = UsersPresenter(getUsersUseCase, searchUsersUseCase)
 
     @Provides
     @Singleton
@@ -37,7 +45,7 @@ class UsersModule {
     @Provides
     @Singleton
     fun provideUsersLocalDataSource(): UsersLocalDataSource {
-        return UsersLocalDataSource()
+        return UsersLocalDataSource(provideUsersDao(provideAppDatabase(provideApplicationContext())))
     }
 
     @Provides
@@ -49,4 +57,9 @@ class UsersModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
+
+    @Provides fun provideAppDatabase(context: Context): UsersDatabase =
+            Room.databaseBuilder(context, UsersDatabase::class.java, "users-db").allowMainThreadQueries().build()
+
+    @Provides fun provideUsersDao(database: UsersDatabase) = database.userDao()
 }
