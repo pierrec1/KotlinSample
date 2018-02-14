@@ -16,28 +16,28 @@ class UsersModule {
 
     @Provides
     @Singleton
-    fun provideUserPresenter(getUsersUseCase: GetUsersUseCase, searchUsersUseCase: SearchUsersUseCase): UsersPresenter = UsersPresenter(getUsersUseCase, searchUsersUseCase)
+    fun provideUsersPresenter(getUsersUseCase: GetUsersUseCase, searchUsersUseCase: SearchUsersUseCase): UsersPresenter = UsersPresenter(getUsersUseCase, searchUsersUseCase)
 
     @Provides
     @Singleton
-    fun provideGetUsersUseCase(getUsersAgent: GetUsersAgent): GetUsersUseCase =
-            GetUsersUseCase(getUsersAgent)
+    fun provideGetUsersUseCase(usersAgent: UsersAgent): GetUsersUseCase =
+            GetUsersUseCase(usersAgent)
 
     @Provides
     @Singleton
-    fun provideGetUsersAgent(getUsersNetworkDataSource: GetUsersNetworkDataSource, getUsersLocalDataSource: GetUsersLocalDataSource): GetUsersAgent =
-            GetUsersAgent(getUsersNetworkDataSource, getUsersLocalDataSource)
+    fun provideUsersAgent(usersNetworkDataSource: UsersNetworkDataSource, usersLocalDataSource: UsersLocalDataSource): UsersAgent =
+            UsersAgent(usersNetworkDataSource, usersLocalDataSource)
 
     @Provides
     @Singleton
-    fun provideGetUsersNetworkDataSource(): GetUsersNetworkDataSource {
-        return GetUsersNetworkDataSource(provideRetrofit())
+    fun provideUsersNetworkDataSource(): UsersNetworkDataSource {
+        return UsersNetworkDataSource(provideRetrofit())
     }
 
     @Provides
     @Singleton
-    fun provideGetUsersLocalDataSource(): GetUsersLocalDataSource {
-        return GetUsersLocalDataSource()
+    fun provideUsersLocalDataSource(): UsersLocalDataSource {
+        return UsersLocalDataSource()
     }
 
     @Provides

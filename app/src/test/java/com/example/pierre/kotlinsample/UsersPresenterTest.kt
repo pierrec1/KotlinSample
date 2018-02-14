@@ -21,7 +21,7 @@ import org.mockito.MockitoAnnotations
 import java.util.*
 
 
-class UserPresenterTest {
+class UsersPresenterTest {
 
     var view = mock(UsersPresenter.View::class.java)
 

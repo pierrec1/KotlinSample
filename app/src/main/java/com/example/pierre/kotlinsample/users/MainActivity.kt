@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.pierre.kotlinsample.R
 import com.example.pierre.kotlinsample.users.dagger.MyApplication
-import com.example.pierre.kotlinsample.users.model.Users
+import com.example.pierre.kotlinsample.users.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -54,12 +54,10 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
         Toast.makeText(this, "done", Toast.LENGTH_LONG).show()
     }
 
-    override fun showUserList(users: Users?) {
-        if (users != null) {
-            Toast.makeText(this, "Nb users: " + users.userList.size, Toast.LENGTH_LONG).show()
-            user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-            user_list_recycler_view?.adapter = UserListAdapter(this, users.userList)
-        }
+    override fun showUserList(userList: List<User>) {
+        Toast.makeText(this, "Nb users: " + userList.size, Toast.LENGTH_LONG).show()
+        user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        user_list_recycler_view?.adapter = UserListAdapter(this, userList)
     }
 
     override fun showError(error: String?) {

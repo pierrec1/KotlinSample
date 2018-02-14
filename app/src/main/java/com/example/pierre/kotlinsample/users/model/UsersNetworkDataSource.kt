@@ -4,7 +4,7 @@ import io.reactivex.Single
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class GetUsersNetworkDataSource @Inject constructor(retrofit: Retrofit) {
+class UsersNetworkDataSource @Inject constructor(retrofit: Retrofit) {
 
     private val usersApi: UsersApi = retrofit
             .create(UsersApi::class.java)
