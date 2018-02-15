@@ -26,4 +26,8 @@ class UsersLocalDataSource @Inject constructor(private val userDao: UserDao) {
     fun clearUsers() {
         userDao.removeAll()
     }
+
+    fun hasUsers(): Boolean = userDao.getAll().size > 0
+
+    fun getUsers(): List<User> = userDao.getAll()
 }
