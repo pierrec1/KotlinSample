@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     private fun setUpSearchView() {
         search_view.setIconifiedByDefault(false)
         search_view.setFocusable(false)
+        enableSearchBarListener()
+    }
+
+    private fun enableSearchBarListener() {
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(textToMatch: String): Boolean {
@@ -38,9 +42,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
             }
 
             override fun onQueryTextChange(textToMatch: String): Boolean {
-                if (textToMatch == "") {
-                    presenter.searchUsers("")
-                }
+                presenter.searchUsers(textToMatch)
                 return true
             }
         })
@@ -64,7 +66,13 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     }
 
     override fun onItemClicked(name: String?) {
+        disableSearchBarListener()
         search_view.setQuery(name, false)
+        enableSearchBarListener()
+    }
+
+    private fun disableSearchBarListener() {
+        search_view.setOnQueryTextFocusChangeListener(null)
     }
 
     override fun onDestroy() {
