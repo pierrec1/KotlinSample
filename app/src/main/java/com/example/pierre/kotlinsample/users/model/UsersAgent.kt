@@ -1,8 +1,9 @@
 package com.example.pierre.kotlinsample.users.model
 
+import com.example.pierre.kotlinsample.users.model.localStorage.UsersLocalDataSource
+import com.example.pierre.kotlinsample.users.model.networkStorage.UsersNetworkDataSource
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 

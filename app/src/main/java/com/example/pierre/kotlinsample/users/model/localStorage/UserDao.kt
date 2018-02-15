@@ -1,8 +1,9 @@
-package com.example.pierre.kotlinsample.users.model
+package com.example.pierre.kotlinsample.users.model.localStorage
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import com.example.pierre.kotlinsample.users.model.User
 
 @Dao
 interface UserDao {
@@ -19,5 +20,5 @@ interface UserDao {
     fun insert(user: User)
 
     @Query("DELETE FROM users")
-    fun removeAll()
+    fun deleteAll()
 }

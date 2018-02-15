@@ -1,12 +1,14 @@
-package com.example.pierre.kotlinsample.users.model
+package com.example.pierre.kotlinsample.users.model.localStorage
 
+import com.example.pierre.kotlinsample.users.model.User
+import com.example.pierre.kotlinsample.users.model.Users
 import io.reactivex.Single
 import javax.inject.Inject
 
 class UsersLocalDataSource @Inject constructor(private val userDao: UserDao) {
 
     fun saveUsers(userList: List<User>): Single<Users> {
-        userDao.removeAll()
+        userDao.deleteAll()
         for (user in userList) {
             userDao.insert(user)
         }

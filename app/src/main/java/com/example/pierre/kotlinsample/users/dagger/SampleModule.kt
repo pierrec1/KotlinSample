@@ -5,6 +5,9 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.example.pierre.kotlinsample.users.UsersPresenter
 import com.example.pierre.kotlinsample.users.model.*
+import com.example.pierre.kotlinsample.users.model.localStorage.UsersDatabase
+import com.example.pierre.kotlinsample.users.model.localStorage.UsersLocalDataSource
+import com.example.pierre.kotlinsample.users.model.networkStorage.UsersNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
