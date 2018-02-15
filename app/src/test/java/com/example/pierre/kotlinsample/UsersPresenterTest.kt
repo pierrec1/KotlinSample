@@ -39,7 +39,7 @@ class UsersPresenterTest {
 
     @Test
     fun loadUsers_showsUsers_whenUseCaseReturnsList() {
-        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.just(makeAnyUsers()))
+        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.just(makeAnyUsers()).toObservable())
         val presenter = UsersPresenter(mockGetUsersUseCase, mockSearchUsersUseCase)
         presenter.setView(view)
 
@@ -51,7 +51,7 @@ class UsersPresenterTest {
     @Test
     fun loadUsers_showsError_whenUseCaseThrows() {
         val throwable = Throwable("test")
-        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.error<Users>(throwable))
+        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.error<Users>(throwable).toObservable())
         val presenter = UsersPresenter(mockGetUsersUseCase, mockSearchUsersUseCase)
         presenter.setView(view)
 
