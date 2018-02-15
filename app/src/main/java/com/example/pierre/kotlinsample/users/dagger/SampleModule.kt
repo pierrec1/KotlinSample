@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class SampleModule(private val application: Application) {
+class MainModule(private val application: Application) {
 
     @Provides
     @Singleton

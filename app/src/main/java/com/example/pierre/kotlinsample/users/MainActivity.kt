@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
 
     private fun setUpSearchView() {
         search_view.setIconifiedByDefault(false)
-        search_view.setFocusable(false)
+        search_view.isFocusable = false
         enableSearchBarListener()
     }
 
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(textToMatch: String): Boolean {
-                presenter.searchUsers(textToMatch)
                 return false
             }
 
@@ -47,10 +46,6 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
             }
         })
     }
-
-    override fun showLoading() {
-    }
-
 
     override fun showUserList(userList: List<User>) {
         user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)

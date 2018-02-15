@@ -7,12 +7,14 @@ import com.example.pierre.kotlinsample.users.model.User
 import com.example.pierre.kotlinsample.users.model.Users
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.given
+import io.reactivex.Observable
 
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
@@ -39,19 +41,19 @@ class UsersPresenterTest {
 
     @Test
     fun loadUsers_showsUsers_whenUseCaseReturnsList() {
-        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.just(makeAnyUsers()).toObservable())
+        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Observable.just(makeAnyUsers()))
         val presenter = UsersPresenter(mockGetUsersUseCase, mockSearchUsersUseCase)
         presenter.setView(view)
 
         presenter.loadUsers()
 
-        verify(view).showUserList(any())
+        verify(view).showUserList(anyList())
     }
 
     @Test
     fun loadUsers_showsError_whenUseCaseThrows() {
         val throwable = Throwable("test")
-        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Single.error<Users>(throwable).toObservable())
+        Mockito.`when`(mockGetUsersUseCase.loadUsers()).thenReturn(Observable.error<Users>(throwable))
         val presenter = UsersPresenter(mockGetUsersUseCase, mockSearchUsersUseCase)
         presenter.setView(view)
 

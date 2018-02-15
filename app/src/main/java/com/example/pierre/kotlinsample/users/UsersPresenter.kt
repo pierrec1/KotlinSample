@@ -13,14 +13,13 @@ class UsersPresenter @Inject constructor(
         val searchUsersUseCase: SearchUsersUseCase) {
 
     private lateinit var view: View
-    val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun setView(view: View) {
         this.view = view
     }
 
     fun loadUsers() {
-        view.showLoading()
         compositeDisposable.add(getUserUseCase.loadUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,10 +47,7 @@ class UsersPresenter @Inject constructor(
     }
 
     interface View {
-        fun showLoading()
-
         fun showUserList(userList: List<User>)
-
         fun showError(error: String?)
     }
 }

@@ -8,7 +8,7 @@ class MyApplication : Application() {
 
     private fun initDagger(app: MyApplication): AppComponent =
             DaggerAppComponent.builder()
-                    .sampleModule(SampleModule(app))
+                    .mainModule(MainModule(app))
                     .build()
 
     override fun onCreate() {
