@@ -49,12 +49,8 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     }
 
     override fun showLoading() {
-        Toast.makeText(this, "loading", Toast.LENGTH_LONG).show()
     }
 
-    override fun hideLoading() {
-        Toast.makeText(this, "done", Toast.LENGTH_LONG).show()
-    }
 
     override fun showUserList(userList: List<User>) {
         user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -66,13 +62,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     }
 
     override fun onItemClicked(name: String?) {
-        disableSearchBarListener()
-        search_view.setQuery(name, false)
-        enableSearchBarListener()
-    }
-
-    private fun disableSearchBarListener() {
-        search_view.setOnQueryTextFocusChangeListener(null)
+        supportActionBar?.title = name
     }
 
     override fun onDestroy() {

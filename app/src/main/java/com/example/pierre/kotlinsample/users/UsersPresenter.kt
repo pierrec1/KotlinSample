@@ -50,8 +50,6 @@ class UsersPresenter @Inject constructor(
     interface View {
         fun showLoading()
 
-        fun hideLoading()
-
         fun showUserList(userList: List<User>)
 
         fun showError(error: String?)
