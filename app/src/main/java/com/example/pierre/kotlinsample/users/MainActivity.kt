@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
     override fun showUserList(userList: List<User>) {
         user_list_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         user_list_recycler_view?.adapter = UserListAdapter(this, userList)
+        user_list_recycler_view.addItemDecoration( RecyclerViewSeparator(this))
     }
 
     override fun showError(error: String?) {
