@@ -10,30 +10,33 @@ import com.example.pierre.kotlinsample.users.model.User
 import com.example.pierre.kotlinsample.R
 import kotlinx.android.synthetic.main.user_item.view.*
 
-class UserListAdapter(val view: UserListView, val userList: List<User>): RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+class UserListAdapter(val view: UserListView, val userList: List<User>) : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
 
-    private var selectedHolder: ViewHolder? = null
+    private val NO_ITEM_SELECTED: Int = -1
+    private var selectedItemPosition: Int = NO_ITEM_SELECTED
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.name?.text = userList[position].name
         holder?.email?.text = userList[position].email
         holder?.infos?.text = userList[position].infos
-        holder?.button?.setOnClickListener {
-            view.onItemClicked(holder.name?.text?.toString())
-            changeCellItemsAppearance(holder)
+        setItemState(isItemSelected(position), holder)
+        holder?.button?.setOnClickListener { onItemClicked(holder, position) }
+    }
+
+    private fun onItemClicked(holder: ViewHolder?, position: Int) {
+        view.setActionBarTitle(holder?.name?.text?.toString())
+        if (!isItemSelected(position)) {
+            selectedItemPosition = position
+            notifyDataSetChanged()
         }
     }
 
-    private fun changeCellItemsAppearance(holder: ViewHolder) {
-        if (selectedHolder?.infos?.visibility == View.VISIBLE) {
-            selectedHolder?.infos?.visibility = View.GONE
-            selectedHolder?.name?.setTypeface(null, Typeface.NORMAL)
-            selectedHolder?.name?.setTextColor(Color.BLACK)
-        }
-        holder.infos?.visibility = View.VISIBLE
-        holder.name?.setTypeface(null, Typeface.BOLD)
-        holder.name?.setTextColor(Color.BLUE)
-        selectedHolder = holder
+    private fun isItemSelected(position: Int) = position == selectedItemPosition
+
+    private fun setItemState(selected: Boolean, holder: ViewHolder?) {
+        holder?.infos?.visibility = if (selected) View.VISIBLE else View.GONE
+        holder?.name?.setTypeface(null, if (selected) Typeface.BOLD else Typeface.NORMAL)
+        holder?.name?.setTextColor(if (selected) Color.BLUE else Color.BLACK)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -45,7 +48,7 @@ class UserListAdapter(val view: UserListView, val userList: List<User>): Recycle
         return userList.size
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.name
         val email = itemView.email
         val infos = itemView.infos
@@ -54,5 +57,5 @@ class UserListAdapter(val view: UserListView, val userList: List<User>): Recycle
 }
 
 interface UserListView {
-    fun onItemClicked(name: String?)
+    fun setActionBarTitle(name: String?)
 }

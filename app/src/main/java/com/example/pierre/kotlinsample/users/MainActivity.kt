@@ -14,6 +14,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
 
+    private val EMPTY: String = ""
+
     @Inject
     lateinit var presenter: UsersPresenter
 
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
             }
 
             override fun onQueryTextChange(textToMatch: String): Boolean {
+                setActionBarTitle(EMPTY)
                 presenter.searchUsers(textToMatch)
                 return true
             }
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity(), UsersPresenter.View, UserListView {
         Toast.makeText(this, getString(R.string.error) + error, Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemClicked(name: String?) {
+    override fun setActionBarTitle(name: String?) {
         supportActionBar?.title = name
     }
 
